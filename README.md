@@ -1,2 +1,3 @@
-# netchilzz
+# NETCHILZZ 
 Webster 2k22 team Project
+## Problem statement: Together WE
