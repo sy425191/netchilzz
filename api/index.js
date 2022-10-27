@@ -16,9 +16,6 @@ mongoose
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
-app.use('/', (req, res)=>{
-    res.send('Netchilzz API endpoint')
-})
 app.listen(8800, () => {
   console.log("Backend server is running!");
 });
