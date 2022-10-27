@@ -1,0 +1,26 @@
+{
+  "name": "netchilzz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sy425191/netchilzz.git"
+  },
+  "author": "team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sy425191/netchilzz/issues"
+  },
+  "homepage": "https://github.com/sy425191/netchilzz#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.0"
+  }
+}
