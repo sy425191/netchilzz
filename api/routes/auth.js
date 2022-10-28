@@ -21,17 +21,41 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//CHECK EMAIL
+router.post("/checkemail", async (req, res) => {
+  try{
+    const userEmail = await User.findOne({email: req.body.email});
+    const userUserName = await User.findOne({username: req.body.username});
+    if(userEmail){
+      res.status(201).json({message: "Email already exists", status: false});
+    }
+    else if(userUserName){
+      res.status(201).json({message: "Username already exists", status: false});
+    }
+    else{
+      res.status(200).json({message: "Username and Email are available", status: true});
+    }
+  }
+  catch(err){
+    res.status(500).json(err);
+  }
+})
+
 //LOGIN
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    !user && res.status(401).json("Wrong password or username!");
+    if(!user){
+      res.status(401).json("Wrong password or username!");
+      return
+    }
 
     const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
     const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
-
-    originalPassword !== req.body.password &&
+    if(originalPassword !== req.body.password){
       res.status(401).json("Wrong password or username!");
+      return
+    }
 
     const accessToken = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
