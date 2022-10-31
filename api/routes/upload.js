@@ -14,7 +14,7 @@ router.post("/add_content", verify, async (req, res) => {
     const tags = req.body.tags.split(",");
     const filteredTags = tags.filter((tag) => tag !== "").map((tag) => tag.trim())
     const newMedia = new Media({
-      user: req.user._id,
+      user: req.user.id,
       title: req.body.title,
       description: req.body.description,
       imgUrl: req.body.imgUrl,
