@@ -27,6 +27,7 @@ const YourContent = () => {
       <div className="row">
         {
             media.map((item) => {
+                item.username = JSON.parse(localStorage.getItem("user")).username
                 return (<Card key={item._id} item={item} /> )
             })
         }
