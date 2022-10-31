@@ -47,7 +47,7 @@ export default function Register() {
         <form>
           <img
             className="mb-4"
-            src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo.svg"
+            src="https://img.icons8.com/color/344/user-account-skin-type-7.png"
             alt=""
             width="72"
             height="57"

@@ -10,6 +10,8 @@ import { useContext } from 'react';
 import Home from './pages/home/Home';
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
+import Upload from './pages/upload/Upload';
+import YourContent from './pages/content/YourContent';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -22,6 +24,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         {/* check for user */}
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
+        {
+          user && (
+            <>
+              <Route path="/upload" element={<Upload />} />
+              <Route path="/user/:username" element={<YourContent />} />
+            </>
+          )
+        }
       </Routes>
     </Router>
   );
