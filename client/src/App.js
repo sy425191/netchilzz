@@ -6,16 +6,23 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthContext } from "./authContext/AuthContext";
-import { useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import Home from './pages/home/Home';
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import Upload from './pages/upload/Upload';
 import YourContent from './pages/content/YourContent';
+import Search from './pages/search/Search';
+import Watch from './pages/watch/Watch';
+import Playlists from './pages/playlists/Playlists';
+
+export const searchContext = createContext();
 
 function App() {
   const { user } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState("") // Search query to be paased to search page
   return (
+    <searchContext.Provider value={{ searchQuery, setSearchQuery }}>
     <Router>
       <Routes>
         {/* check for register */}
@@ -29,11 +36,15 @@ function App() {
             <>
               <Route path="/upload" element={<Upload />} />
               <Route path="/user/:username" element={<YourContent />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/watch/:mediaId" element={<Watch />} />
+              <Route path='/playlists' element={<Playlists />} />
             </>
           )
         }
       </Routes>
     </Router>
+    </searchContext.Provider>
   );
 }
 

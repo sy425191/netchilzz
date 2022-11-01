@@ -8,13 +8,14 @@ const MediaSchema = new mongoose.Schema(
     imgUrl: { type: String, required: true },
     mediaUrl: { type: String, required: true },
     genre: { type: String },
-    tags: { type: Array },
+    tags: { type: Array, default: [] },
     streams: { type: Number, default: 0 },
     upvotes: { type: Array, default: [] },
     downvotes: { type: Array, default: [] },
     comments: { type: Array, default: [] },
     type: { type: String, required: true },
     private: { type: Boolean, default: false },
+    favorites: { type: Array, default: [] },
   },
   { timestamps: true }
 );
