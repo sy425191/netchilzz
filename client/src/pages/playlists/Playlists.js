@@ -20,17 +20,24 @@ const Playlists = () => {
       showLoaderOnConfirm: true,
       preConfirm: async (playlistName) => {
         // create playlist
-        return await axios.post(
-          "/playlist/add",
-          { playlistName },
-          {
-            headers: {
-              token:
-                "Bearer " +
-                JSON.parse(localStorage.getItem("user")).accessToken,
-            },
-          }
-        );
+        try {
+          const newplaylist = await axios.post(
+            "/playlists/add",
+            { playlistName },
+            {
+              headers: {
+                token:
+                  "Bearer " +
+                  JSON.parse(localStorage.getItem("user")).accessToken,
+              },
+            }
+          );
+          return newplaylist;
+        } catch (err) {
+          console.log(err);
+          return err;
+        }
+
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -42,21 +49,20 @@ const Playlists = () => {
 
   useEffect(() => {
     const getPlaylists = async () => {
-        try {
-            const res = await axios.get("/playlist/get", {
-                headers: {
-                    token:
-                        "Bearer " +
-                        JSON.parse(localStorage.getItem("user")).accessToken,
-                },
-            });
-            setPlaylists(res.data);
-        } catch (err) {
-            console.log(err);
-        }
+      try {
+        const res = await axios.get("/playlists/all", {
+          headers: {
+            token:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        });
+        setPlaylists(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
     getPlaylists();
-    }, []);
+  }, []);
 
   return (
     <Layout>
@@ -65,7 +71,13 @@ const Playlists = () => {
           Create Playlist
         </a>
       </div>
-      <div className="container"></div>
+      <div className="container">
+        {
+            playlists.map(playlist => (
+                <p>{playlist.name}</p>
+            ))
+        }
+      </div>
     </Layout>
   );
 };

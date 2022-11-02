@@ -10,7 +10,7 @@ const VideoPlayer = ({ videoUrl }) => {
   return (
     // full screen video player
     <div className="video-player">
-      <video controls autoPlay id="video" style={{ width: "100%", height: "70vh" }}>
+      <video controls autoPlay id="video" style={{ width: "100%", height: "70vh", backgroundColor: "rgba(0,0,0,0.1)" }}>
         <source type="video/mp4" />
       </video>
     </div>

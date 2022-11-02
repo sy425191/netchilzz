@@ -21,7 +21,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/upload", uploadRoute);
 app.use("/api/media", mediaRoute)
-app.use("/api/playlist", playlistRoute);
+app.use("/api/playlists", playlistRoute);
 app.listen(8800, () => {
   console.log("Backend server is running!");
 });

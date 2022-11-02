@@ -119,7 +119,11 @@ const Navbar = () => {
         </button>
       </div>
       <div className="d-flex">
-        <a className="btn btn-outline-danger mx-1" href="/upload">
+        <a className="btn btn-outline-danger mx-2" href="/newroom">
+          Create Room
+        </a>
+
+        <a className="btn btn-outline-primary mx-1" href="/upload">
           Upload
         </a>
         <div className="dropdown mx-1">

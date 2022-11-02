@@ -58,6 +58,13 @@ const Upload = () => {
   };
 
   const handleSubmit = () => {
+    if(!mediaUrl){
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please wait for the upload to complete",
+      });
+    }
     if (!title || !description || !tags) {
       return Swal.fire({
         icon: "error",

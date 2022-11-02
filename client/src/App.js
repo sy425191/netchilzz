@@ -15,6 +15,8 @@ import YourContent from './pages/content/YourContent';
 import Search from './pages/search/Search';
 import Watch from './pages/watch/Watch';
 import Playlists from './pages/playlists/Playlists';
+import NewRoom from './pages/roomnew/Roomnew';
+import Room from './pages/room/Room';
 
 export const searchContext = createContext();
 
@@ -39,6 +41,8 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/watch/:mediaId" element={<Watch />} />
               <Route path='/playlists' element={<Playlists />} />
+              <Route path='/newroom' element={<NewRoom />} />
+              <Route path='/room/:roomId' element={<Room />} />
             </>
           )
         }
