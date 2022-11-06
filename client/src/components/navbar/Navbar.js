@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { searchContext } from "../../App";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
@@ -119,8 +119,8 @@ const Navbar = () => {
         </button>
       </div>
       <div className="d-flex">
-        <a className="btn btn-outline-danger mx-2" href="/newroom">
-          Create Room
+        <a className="btn btn-outline-danger mx-2" href="/room">
+          Rooms
         </a>
 
         <a className="btn btn-outline-primary mx-1" href="/upload">

@@ -11,13 +11,18 @@
     border-radius: 30px;
 }
 /*-----------------------LIVE CHAT-------------------------*/
+
 .cgl-live-chat{
-    max-width: 550px;
+    height: calc(100% - 60px);
 }
+
 .cgl-live-chat .chat-wrapper {
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     box-sizing: border-box;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    height: -webkit-fill-available;
 }
 
 .cgl-live-chat .chat-wrapper .chat-title {
@@ -34,10 +39,11 @@
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
-    min-height: 400px;
-    max-height: 400px;
     overflow-y: auto;
-    /*    justify-content: flex-end;*/
+    overflow-x: hidden;
+    padding: 10px;
+    flex: 1 1 auto;
+    word-break: break-word;
 }
 
 .cgl-live-chat .chat-wrapper .chat-item {
@@ -119,11 +125,13 @@
 
 .cgl-live-chat .chat-wrapper .chat-message {
     background-color: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
     padding: 6px;
 }
 
 .cgl-live-chat .chat-wrapper .chat-message input {
     background-color: transparent;
+    color: #c0c0c0;
     border: none !important;
     font-family: Hind Madurai;
     font-style: normal;

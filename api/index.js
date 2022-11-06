@@ -6,6 +6,19 @@ const authRoute = require("./routes/auth");
 const uploadRoute = require("./routes/upload");
 const mediaRoute = require("./routes/media");
 const playlistRoute = require("./routes/playlist");
+const {sendMessage, Message} = require("./socket/Message");
+const RoomSocket = require("./socket/Room");
+const io = require("socket.io")(8000,{
+  cors :{
+      origin: ["http://localhost:3000", "https://admin.socket.io", "*"],
+      methods: ['GET', 'POST'],
+  }
+})
+
+io.on("connection", (socket) => {
+  RoomSocket(io, socket);
+  Message(io, socket);
+})
 
 dotenv.config();
 
@@ -22,6 +35,6 @@ app.use("/api/auth", authRoute);
 app.use("/api/upload", uploadRoute);
 app.use("/api/media", mediaRoute)
 app.use("/api/playlists", playlistRoute);
-app.listen(8800, () => {
+app.listen(process.env.PORT, () => {
   console.log("Backend server is running!");
 });

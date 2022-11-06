@@ -12,7 +12,6 @@ const MediaSchema = new mongoose.Schema(
     streams: { type: Number, default: 0 },
     upvotes: { type: Array, default: [] },
     downvotes: { type: Array, default: [] },
-    comments: { type: Array, default: [] },
     type: { type: String, required: true },
     private: { type: Boolean, default: false },
     favorites: { type: Array, default: [] },

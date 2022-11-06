@@ -1,29 +1,61 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../authContext/AuthContext";
+import RoomContext from "../../roomContext/roomContext";
+import SocketContext from "../../socketContext/SocketContext";
 import { date_to_days } from "../functions";
 import "./chat.css";
 const Chat = () => {
-  {
-    /* add thia class "chat-pinned" in chat item to stick the pinned message   
-         Add this class "admin-tag" in sender name to highlight the admin message  */
-  }
+  /* add thia class "chat-pinned" in chat item to stick the pinned message   
+     Add this class "admin-tag" in sender name to highlight the admin message  */
   const user = useContext(AuthContext);
   const [Chats, setChats] = useState([]);
   const [Chat, setChat] = useState("");
+  const { roomState, setRoomState } = useContext(RoomContext);
+
+  const socket = useContext(SocketContext);
+  useEffect(() => {
+    console.log("Chat component mounted");
+    socket.on("message", (data) => {
+      printChat({
+        message: data.message,
+        username: data.username,
+        date: new Date(),
+        pinned: false,
+        admin: false,
+      });
+    });
+  }, [socket]);
+
+  const printChat = (msg) => {
+    setChats((prev) => [...prev, msg]);
+    setTimeout(() => {
+      const chat_view = document.getElementById("chat-view");
+      chat_view.scrollTop = chat_view.scrollHeight;
+    }, 100);
+  };
 
   const addChat = (e) => {
     e.preventDefault();
     if (Chat !== "") {
-      setChats([
-        ...Chats,
+      socket.emit(
+        "message",
         {
+          roomId: roomState.roomId,
           message: Chat,
           username: user.user.username,
-          date: new Date(),
-          pinned: false,
-          admin: false,
+          userId: user.user._id,
         },
-      ]);
+        (data) => {
+          // console.log(data);
+        }
+      );
+      printChat({
+        message: Chat,
+        username: user.user.username,
+        date: new Date(),
+        pinned: false,
+        admin: false,
+      });
       setChat("");
     }
   };
@@ -31,11 +63,13 @@ const Chat = () => {
     <div className="cgl-live-chat">
       <div className="chat-wrapper">
         <div className="chat-title">Live Chat</div>
-        <div className="chat-view p-1">
+        <div className="chat-view p-1" id="chat-view">
           {Chats.map((chat) => {
             return (
               <div
-                className={"chat-item" + chat.pinned == true && "chat-pinned"}
+                className={
+                  "chat-item" + chat.pinned === true ? "chat-pinned" : ""
+                }
               >
                 <div className="d-flex">
                   <img
@@ -47,7 +81,9 @@ const Chat = () => {
                       <div>
                         <div
                           className={
-                            "sender-name d-block" + chat.admin == true && "admin-tag"
+                            "sender-name d-block" + chat.admin === true
+                              ? "admin-tag"
+                              : ""
                           }
                         >
                           <a>@{chat.username}</a>

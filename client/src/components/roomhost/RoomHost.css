@@ -1,0 +1,35 @@
+.room_host{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: azure;
+}
+
+.room_host__container{
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    top: 0%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+}
+
+.room_host__body{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: inherit;
+}
+
+.content-player{
+    background-color: rgb(216, 216, 216);
+    width: inherit;
+}
+
+.room-chat{
+    width: 30%;
+}

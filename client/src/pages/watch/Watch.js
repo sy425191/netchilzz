@@ -1,12 +1,15 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Layout from "../../components/layout/Layout";
 import VideoPlayer from "../../components/player/VideoPlayer";
 import AudioPlayer from "../../components/player/AudioPlayer";
 import { TrimVar } from "../../components/functions";
+import { AuthContext } from "../../authContext/AuthContext";
+import { like, dislike } from "./watchApiCalls";
 
 const Watch = () => {
+  const user = useContext(AuthContext);
   const { mediaId } = useParams();
   const [mediaType, setMediaType] = useState("");
   const [mediaUrl, setMediaUrl] = useState("");
@@ -20,6 +23,41 @@ const Watch = () => {
       description: "",
     },
   ]);
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [disliked, setDisliked] = useState(false);
+  const [dislikes, setDislikes] = useState(0);
+
+  const likeHandler = () => {
+    if (liked) {
+      setLiked(false);
+      setLikes(likes - 1);
+    } else {
+      setLiked(true);
+      setLikes(likes + 1);
+    }
+    if (disliked) {
+      setDisliked(false);
+      setDislikes(dislikes - 1);
+    }
+    like(user.user._id, mediaId);
+  };
+
+  const dislikeHandler = () => {
+    if (disliked) {
+      setDisliked(false);
+      setDislikes(dislikes - 1);
+    } else {
+      setDisliked(true);
+      setDislikes(dislikes + 1);
+    }
+    if (liked) {
+      setLiked(false);
+      setLikes(likes - 1);
+    }
+    dislike(user.user._id, mediaId);
+  };
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +80,10 @@ const Watch = () => {
         setMedia(data);
         setMediaType(data.type);
         setMediaUrl(data.mediaUrl);
+        setLiked(data.upvotes.includes(user.user._id));
+        setLikes(data.upvotes.length);
+        setDisliked(data.downvotes.includes(user.user._id));
+        setDislikes(data.downvotes.length);
       } catch (error) {
         console.log(error);
       }
@@ -68,10 +110,13 @@ const Watch = () => {
               ))}
             </div>
             <div className="col-12 col-md-8 p-4">
-              <div className="media-info p-3" style={{
-                backgroundColor: "rgba(0,0,0,0.05)",
-                borderRadius: "10px",
-              }}>
+              <div
+                className="media-info p-3"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.05)",
+                  borderRadius: "10px",
+                }}
+              >
                 <h3 className="text my-1">{media.title}</h3>
                 <div className="d-flex align-items-center">
                   <img
@@ -94,19 +139,29 @@ const Watch = () => {
                 }}
               >
                 <div>
-                  <button className="btn btn-outline-success">
-                    <i className="fa fa-thumbs-up me-2"></i>{" "}
-                    {media.upvotes.length}
+                  <button
+                    className={
+                      "btn " +
+                      (liked === true ? "btn-success" : "btn-outline-success")
+                    }
+                    onClick={likeHandler}
+                  >
+                    <i className="fa fa-thumbs-up me-2"></i> {likes}
                   </button>
-                  <button className="btn btn-outline-danger ms-2">
-                    <i className="fa fa-thumbs-down me-2"></i>{" "}
-                    {media.downvotes.length}
+                  <button
+                    className={
+                      "btn ms-2 " +
+                      (disliked === true ? "btn-danger" : "btn-outline-danger")
+                    }
+                    onClick={dislikeHandler}
+                  >
+                    <i className="fa fa-thumbs-down me-2"></i> {dislikes}
                   </button>
                 </div>
                 <div>
-                  <button className="btn btn-primary">
+                  <a className="btn btn-primary" href="/newroom">
                     <i className="fa fa-share me-2"></i> Stream
-                  </button>
+                  </a>
                 </div>
               </div>
               <div

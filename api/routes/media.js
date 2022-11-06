@@ -39,8 +39,7 @@ router.post("/get", verify, async (req, res) => {
         res.status(403).json("This media is private");
       }
     }
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).json(err);
   }
 });
@@ -94,6 +93,77 @@ router.post("/search", verify, async (req, res) => {
     })
   );
   res.json(uploadsWithUserInfo);
+});
+
+// if put request on /api/media/<media_id>/like
+router.put("/:id/like", verify, async (req, res) => {
+  const media_id = req.params.id;
+  const user_id = req.user.id;
+  try {
+    const media = await Media.findById(media_id);
+    if (!media) {
+      res.status(404).json("Media not found");
+    } else {
+      if (media.upvotes.includes(user_id)) {
+        res.status(400).json("Already Liked");
+      } else {
+        await Media.findByIdAndUpdate(media_id, {
+          $push: { upvotes: user_id },
+        });
+        await Media.findByIdAndUpdate(media_id, {
+          $pull: { downvotes: user_id },
+        });
+        res.status(200).json("Liked");
+      }
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// if put request on /api/media/<media_id>/dislike
+router.put("/:id/dislike", verify, async (req, res) => {
+  const media_id = req.params.id;
+  const user_id = req.user.id;
+  try {
+    const media = await Media.findById(media_id);
+    if (!media) {
+      res.status(404).json("Media not found");
+    } else {
+      if (media.downvotes.includes(user_id)) {
+        res.status(400).json("Already Disliked");
+      } else {
+        await Media.findByIdAndUpdate(media_id, {
+          $push: { downvotes: user_id },
+        });
+        await Media.findByIdAndUpdate(media_id, {
+          $pull: { upvotes: user_id },
+        });
+        res.status(200).json("Disliked");
+      }
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// if put request on /api/media/<media_id>/view
+router.put("/:id/view", verify, async (req, res) => {
+  const media_id = req.params.id;
+  const user_id = req.user.id;
+  try {
+    const media = await Media.findById(media_id);
+    if (!media) {
+      res.status(404).json("Media not found");
+    } else {
+      await Media.findByIdAndUpdate(media_id, {
+        $inc: { streams: 1 },
+      });
+      res.status(200).json("Viewed");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 
