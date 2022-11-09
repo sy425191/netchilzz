@@ -1,5 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const roomModel = require("../models/Room");
+const mediaModel = require("../models/Media");
+const https = require("https");
 
 const Room = (io, socket) => {
   socket.on("createRoom", async (res, cb) => {
@@ -171,6 +173,53 @@ const Room = (io, socket) => {
       cb({
         room: null,
         message: "Room not found",
+      });
+    }
+  });
+
+  socket.on("PlayInRoom", async (res, cb) => {
+    const roomId = res.roomId;
+    if (!mongoose.Types.ObjectId.isValid(roomId)) {
+      cb({
+        error: "Room does not exist",
+      });
+      return;
+    }
+    const room = await roomModel.findById(res.roomId);
+    if (room) {
+      // if admin
+      if (room.admin === res.userId) {
+        const mediaId = res.mediaId;
+        if (!mongoose.Types.ObjectId.isValid(mediaId)) {
+          cb({
+            error: "Media does not exist",
+          });
+          return;
+        }
+        const media = await mediaModel.findById(res.mediaId);
+        // set media to room
+        roomModel.findOneAndUpdate(
+          { _id: res.roomId },
+          {
+            $set: {
+              media: media.mediaUrl,
+            },
+          },
+          { new: true },
+          (err, doc) => {
+            if (err) {
+              console.log("Something wrong when updating data!");
+            }
+          }
+        );
+      } else {
+        cb({
+          error: "You are not admin",
+        });
+      }
+    } else {
+      cb({
+        error: "Room does not exist",
       });
     }
   });

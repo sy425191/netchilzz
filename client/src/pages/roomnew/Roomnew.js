@@ -3,6 +3,8 @@ import swal from "sweetalert2";
 import SocketContext from "../../socketContext/SocketContext";
 import { AuthContext } from "../../authContext/AuthContext";
 import Swal from "sweetalert2";
+import RoomContext from "../../roomContext/roomContext";
+
 
 const Roomnew = () => {
   const user = useContext(AuthContext);
@@ -11,6 +13,8 @@ const Roomnew = () => {
   const [roomValue, setRoomValue] = useState("");
   const [roomPsw, setRoomPsw] = useState("");
   const [pswDisplay, setPswDisplay] = useState(false);
+  const { setStreamMedia } =
+    useContext(RoomContext);
 
   const CreateRoom = async (type) => {
     const data = {
@@ -50,6 +54,10 @@ const Roomnew = () => {
   const callback = (value) => {
     swal.close();
     if (value) {
+      setStreamMedia({
+        url: null,
+        id: null,
+      })
       window.location.href = `/room/${value.room.roomId}`;
     }
   };

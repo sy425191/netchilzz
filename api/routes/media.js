@@ -2,6 +2,9 @@ const verify = require("../verifyToken");
 const router = require("express").Router();
 const Media = require("../models/Media");
 const User = require("../models/User");
+const Room = require("../models/Room");
+var httpProxy = require("http-proxy");
+const { default: mongoose } = require("mongoose");
 
 router.get("/userAll", verify, async (req, res) => {
   const user_id = req.user.id;
@@ -47,7 +50,7 @@ router.post("/get", verify, async (req, res) => {
 router.post("/search", verify, async (req, res) => {
   const user_id = req.user.id;
   const { query, sort, filter } = req.body;
-  if (query == "") {
+  if (query === "") {
     res.json([]);
     return;
   }
@@ -166,6 +169,36 @@ router.put("/:id/view", verify, async (req, res) => {
   }
 });
 
+router.get("/roomplaying/:id", async (req, res) => {
+  const room_id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(room_id)) {
+    res.status(400).json("Invalid room id");
+    return;
+  }
+  const room = await Room.findById(room_id);
+  if (!room) {
+    res.status(404).json("Room not found");
+    return;
+  }
+  const media = room.media;
+  if(!media){
+    res.json();
+    return;
+  }
+  const proxy = httpProxy.createProxyServer({
+    target: media,
+    changeOrigin: true,
+    ws: true,
+  });
+
+  proxy.on("error", (err, req, res) => {
+    console.log(err);
+    res.status(500).send("Something went wrong.");
+  });
+
+  proxy.web(req, res);
+});
 
 const getMediaWithUserInfo = async (media) => {
   const user = await User.findById(media.user);

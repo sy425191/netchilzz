@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthContext } from "./authContext/AuthContext";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
@@ -18,6 +18,7 @@ import NewRoom from "./pages/roomnew/Roomnew";
 import Room from "./pages/room/Room";
 import SocketContext, { socket } from "./socketContext/SocketContext";
 import RoomContext from "./roomContext/roomContext";
+import { ChatProvider } from "./chatContext/ChatContext";
 
 export const searchContext = createContext();
 
@@ -30,34 +31,49 @@ function App() {
     isHost: false,
     isJoined: false,
   });
+  const [StreamMedia, setStreamMedia] = useState({
+    url:
+      localStorage.getItem("streamMedia") !== null || undefined
+        ? JSON.parse(localStorage.getItem("streamMedia")).url
+        : null,
+  });
+
+  useEffect(() => {
+    localStorage.setItem("streamMedia", JSON.stringify(StreamMedia));
+  }, [StreamMedia]);
+
   return (
     <searchContext.Provider value={{ searchQuery, setSearchQuery }}>
       <Router>
         <SocketContext.Provider value={socket}>
-          <RoomContext.Provider value={{ roomState, setRoomState }}>
-            <Routes>
-              {/* check for register */}
-              <Route path="/register" element={<Register />} />
-              {/* check for login */}
-              <Route path="/login" element={<Login />} />
-              {/* check for user */}
-              <Route
-                path="/"
-                element={user ? <Home /> : <Navigate to="/login" />}
-              />
-              {user && (
-                <>
-                  <Route path="/upload" element={<Upload />} />
-                  <Route path="/user/:username" element={<YourContent />} />
-                  <Route path="/search" element={<Search />} />
-                  <Route path="/watch/:mediaId" element={<Watch />} />
-                  <Route path="/playlists" element={<Playlists />} />
-                  <Route path="/room" element={<NewRoom />} />
-                  <Route path="/room/:roomId" element={<Room />} />
-                </>
-              )}
-            </Routes>
-          </RoomContext.Provider>
+          <ChatProvider>
+            <RoomContext.Provider
+              value={{ roomState, setRoomState, StreamMedia, setStreamMedia }}
+            >
+              <Routes>
+                {/* check for register */}
+                <Route path="/register" element={<Register />} />
+                {/* check for login */}
+                <Route path="/login" element={<Login />} />
+                {/* check for user */}
+                <Route
+                  path="/"
+                  element={user ? <Home /> : <Navigate to="/login" />}
+                />
+                {user && (
+                  <>
+                    <Route path="/upload" element={<Upload />} />
+                    <Route path="/user/:username" element={<YourContent />} />
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/watch/:mediaId" element={<Watch />} />
+                    <Route path="/playlists" element={<Playlists />} />
+                    <Route path="/room" element={<NewRoom />} />
+                    <Route path="/room/:roomId" element={<Room />} />
+                  </>
+                )}
+              </Routes>
+            </RoomContext.Provider>
+          </ChatProvider>
         </SocketContext.Provider>
       </Router>
     </searchContext.Provider>

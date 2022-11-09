@@ -5,6 +5,7 @@ import { RoomHost } from "../../components/roomhost/RoomHost";
 import { RoomUser } from "../../components/roomuser/RoomUser";
 import SocketContext from "../../socketContext/SocketContext";
 import RoomContext from "../../roomContext/roomContext";
+import { HostProvider } from "../../roomContext/hostSocket";
 
 const Room = () => {
   const user = useContext(AuthContext);
@@ -35,7 +36,10 @@ const Room = () => {
   useEffect(() => {
     JoinRoom(roomId);
   }, []);
-  return isHost ? <RoomHost roomId={roomId} /> : <RoomUser roomId={roomId} />;
+  return isHost ? 
+  <HostProvider socket={socket} roomId={roomId}>
+  <RoomHost roomId={roomId} />
+  </HostProvider> : <RoomUser roomId={roomId} />;
 };
 
 export default Room;

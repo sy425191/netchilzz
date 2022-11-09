@@ -7,6 +7,7 @@ const RoomSchema = new mongoose.Schema({
     required: true,
   },
   key: { type: String, required: true },
+  media: { type: String, default: "" },
   userArray: [
     {
       userId: { type: String, required: true },

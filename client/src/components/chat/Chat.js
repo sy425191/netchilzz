@@ -14,7 +14,6 @@ const Chat = () => {
 
   const socket = useContext(SocketContext);
   useEffect(() => {
-    console.log("Chat component mounted");
     socket.on("message", (data) => {
       printChat({
         message: data.message,

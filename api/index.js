@@ -8,6 +8,7 @@ const mediaRoute = require("./routes/media");
 const playlistRoute = require("./routes/playlist");
 const {sendMessage, Message} = require("./socket/Message");
 const RoomSocket = require("./socket/Room");
+const Stream = require("./socket/Stream");
 const io = require("socket.io")(8000,{
   cors :{
       origin: ["http://localhost:3000", "https://admin.socket.io", "*"],
@@ -18,6 +19,7 @@ const io = require("socket.io")(8000,{
 io.on("connection", (socket) => {
   RoomSocket(io, socket);
   Message(io, socket);
+  Stream(io, socket);
 })
 
 dotenv.config();
