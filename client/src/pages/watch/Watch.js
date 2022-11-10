@@ -58,6 +58,14 @@ const Watch = () => {
     dislike(user.user._id, mediaId);
   };
 
+  const downloadMedia = () => {
+    const link = document.createElement("a");
+    link.href = "http://localhost:8800/api/media/forcedownload/" + mediaId;
+    link.setAttribute("download", media.title);
+    document.body.appendChild(link);
+    link.click();
+  }
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -159,8 +167,11 @@ const Watch = () => {
                   </button>
                 </div>
                 <div>
-                  <a className="btn btn-primary" href="/newroom">
+                  <a className="btn btn-primary" href={"/newroom"}>
                     <i className="fa fa-share me-2"></i> Stream
+                  </a>
+                  <a className="btn btn-success mx-1" onClick={downloadMedia}>
+                    <i className="fa fa-download"></i>
                   </a>
                 </div>
               </div>

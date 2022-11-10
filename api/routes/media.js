@@ -182,7 +182,7 @@ router.get("/roomplaying/:id", async (req, res) => {
     return;
   }
   const media = room.media;
-  if(!media){
+  if (!media) {
     res.json();
     return;
   }
@@ -191,6 +191,40 @@ router.get("/roomplaying/:id", async (req, res) => {
     changeOrigin: true,
     ws: true,
   });
+
+  proxy.on("error", (err, req, res) => {
+    console.log(err);
+    res.status(500).send("Something went wrong.");
+  });
+
+  proxy.web(req, res);
+});
+
+router.get("/forcedownload/:id", async (req, res) => {
+  const mediaId = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(mediaId)) {
+    res.status(400).json("Invalid media id");
+    return;
+  }
+
+  const media = await Media.findById(mediaId);
+  if (!media) {
+    res.status(404).json("Media not found");
+    return;
+  }
+  const media_url = media.mediaUrl;
+  // set a proxy to force download
+  const proxy = httpProxy.createProxyServer({
+    target: media_url,
+    changeOrigin: true,
+    ws: true,
+  });
+
+  proxy.on('proxyRes', function (proxyRes, req, res) {
+    // forcing download
+    proxyRes.headers['Content-Disposition'] = 'attachment';
+  });
+  
 
   proxy.on("error", (err, req, res) => {
     console.log(err);

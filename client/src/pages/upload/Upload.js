@@ -36,29 +36,31 @@ const Upload = () => {
 
     Swal.showLoading();
 
-    const imgref = ref(storage, `images/` +  Date.now() + img.file.name);
+    const imgref = ref(storage, `images/` + Date.now() + img.file.name);
     const mediaref = ref(storage, `media/` + Date.now() + media.file.name);
-    
+
     uploadBytes(imgref, img.file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          setImgUrl(url);
-          console.log(url)
-          Swal.hideLoading()
-          setUploadState(true)
-        });
-    })
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImgUrl(url);
+        console.log(url);
+        Swal.hideLoading();
+        setUploadState(true);
+      });
+    });
 
     uploadBytes(mediaref, media.file).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         setMediaUrl(url);
-        console.log(url)
-      })
-    })
-
+        console.log(url);
+      });
+      // show progress bar
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      setMedia({ ...media, loaded: progress });
+    });
   };
 
   const handleSubmit = () => {
-    if(!mediaUrl){
+    if (!mediaUrl) {
       return Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -96,7 +98,7 @@ const Upload = () => {
         }
       )
       .then((res) => {
-        Swal.hideLoading()
+        Swal.hideLoading();
         console.log(res);
         Swal.fire({
           icon: "success",
@@ -106,7 +108,7 @@ const Upload = () => {
         window.location.reload();
       })
       .catch((err) => {
-        Swal.hideLoading()
+        Swal.hideLoading();
         console.log(err);
       });
   };
@@ -169,6 +171,7 @@ const Upload = () => {
           </div>
 
           {!uploadState ? (
+            // show progress bar
             <div className="d-flex justify-content-center">
               <button
                 className="btn btn-danger"
@@ -181,6 +184,18 @@ const Upload = () => {
             </div>
           ) : (
             <>
+            <div className="container mx-2">
+                <div
+                  className="py-2 bg-danger text-white rounded"
+                  role="progressbar"
+                  style={{ width: `${media.loaded}%` }}
+                  aria-valuenow={media.loaded}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <span className="fw-bold d-flex justify-content-center w-100">{media.loaded}%</span>
+                </div>
+              </div>
               <div className="col-12 col-md-6 my-2">
                 <input
                   className="form-control"
@@ -225,7 +240,11 @@ const Upload = () => {
               </div>
               <div className="col-12 col-md-6 my-2"></div>
               <div className="col-12 col-md-6 my-2">
-                <a className="btn btn-primary" onClick={handleSubmit} disabled={!(imgUrl && mediaUrl)}>
+                <a
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                  disabled={!(imgUrl && mediaUrl)}
+                >
                   Submit
                 </a>
               </div>
