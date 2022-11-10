@@ -7,6 +7,7 @@ import AudioPlayer from "../../components/player/AudioPlayer";
 import { TrimVar } from "../../components/functions";
 import { AuthContext } from "../../authContext/AuthContext";
 import { like, dislike } from "./watchApiCalls";
+import AddToPlaylist from "./AddToPlaylist";
 
 const Watch = () => {
   const user = useContext(AuthContext);
@@ -30,25 +31,38 @@ const Watch = () => {
   const [dislikes, setDislikes] = useState(0);
 
   const favoriteToggle = () => {
-    if(isFavorite === false){
+    if (isFavorite === false) {
       setIsFavorite(true);
-      axios.post("/user/addtoFavorites", { mediaId: mediaId }, {
-        headers: {
-          token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-        },
-      })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-    }
-    else{
+      axios
+        .post(
+          "/user/addtoFavorites",
+          { mediaId: mediaId },
+          {
+            headers: {
+              token:
+                "Bearer " +
+                JSON.parse(localStorage.getItem("user")).accessToken,
+            },
+          }
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    } else {
       setIsFavorite(false);
-      axios.post("/user/removefromFavorites", { mediaId: mediaId }, {
-        headers: {
-          token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-        },
-      })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      axios
+        .post(
+          "/user/removefromFavorites",
+          { mediaId: mediaId },
+          {
+            headers: {
+              token:
+                "Bearer " +
+                JSON.parse(localStorage.getItem("user")).accessToken,
+            },
+          }
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     }
   };
 
@@ -196,6 +210,10 @@ const Watch = () => {
                     <i className="fa fa-heart"></i> Remove from Favorites
                   </a>
                 )}
+
+                <a className="btn btn-outline-primary mx-2" data-bs-toggle="modal" data-bs-target="#addToPlaylistModal">
+                  <i className="fa fa-plus"></i> Add to Playlist
+                </a>
               </div>
             </div>
             <div className="col-12 col-md-4">
@@ -251,6 +269,7 @@ const Watch = () => {
           </>
         )}
       </div>
+      <AddToPlaylist mediaId={mediaId} />
     </Layout>
   );
 };

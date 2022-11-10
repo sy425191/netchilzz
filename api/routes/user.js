@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const Media = require("../models/Media");
 const verify = require("../verifyToken");
+const { default: mongoose } = require("mongoose");
 
 router.post("/addtoFavorites", verify, (req, res) => {
   const { mediaId } = req.body;
@@ -74,7 +75,7 @@ router.post("/favorites", verify, async (req, res) => {
           if (err) {
           } else {
             media.push(result);
-            console.log("added");
+            // console.log("added");
           }
         });
       });
@@ -87,6 +88,26 @@ router.post("/favorites", verify, async (req, res) => {
       }, 100);
     }
   });
+});
+
+router.post("/getUserPublic", verify, (req, res) => {
+  const { userId } = req.body;
+  if (mongoose.Types.ObjectId.isValid(userId)) {
+    User.findById(userId, (err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        const user = {
+          username: result.username,
+          email: result.email,
+          timestamp: result.timestamp,
+        };
+        res.json(user);
+      }
+    });
+  } else {
+    res.json({ error: "Invalid User Id" });
+  }
 });
 
 module.exports = router;

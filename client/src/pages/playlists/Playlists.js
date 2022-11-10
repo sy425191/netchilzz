@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { async } from "@firebase/util";
+import PlayListCard from "../../components/card/PlayListcard";
 
 const Playlists = () => {
   const [playlists, setPlaylists] = useState([]);
@@ -37,12 +38,11 @@ const Playlists = () => {
           console.log(err);
           return err;
         }
-
       },
     }).then((result) => {
       if (result.isConfirmed) {
         // add new playlist to state
-        setPlaylists([...playlists, result.value]);
+        window.location.href = "/playlists";
       }
     });
   };
@@ -72,11 +72,11 @@ const Playlists = () => {
         </a>
       </div>
       <div className="container">
-        {
-            playlists.map(playlist => (
-                <p>{playlist.name}</p>
-            ))
-        }
+        <div className="d-flex flex-wrap">
+          {playlists.map((playlist) => (
+            <PlayListCard item={playlist} />
+          ))}
+        </div>
       </div>
     </Layout>
   );

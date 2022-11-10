@@ -20,6 +20,7 @@ import SocketContext, { socket } from "./socketContext/SocketContext";
 import RoomContext from "./roomContext/roomContext";
 import { ChatProvider } from "./chatContext/ChatContext";
 import Favorites from "./pages/favorites/Favorites";
+import OpenPlayList from "./pages/playlists/OpenPlaylist";
 
 export const searchContext = createContext();
 
@@ -69,6 +70,7 @@ function App() {
                     <Route path="/search" element={<Search />} />
                     <Route path="/watch/:mediaId" element={<Watch />} />
                     <Route path="/playlists" element={<Playlists />} />
+                    <Route path="/playlists/:id" element={<OpenPlayList />} />
                     <Route path="/room" element={<NewRoom />} />
                     <Route path="/room/:roomId" element={<Room />} />
                   </>
