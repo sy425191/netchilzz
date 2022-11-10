@@ -1,12 +1,15 @@
 import {useState} from 'react';
 import axios from 'axios' ;
 import {apiBaseUrl} from '../config'
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
     const [email,setEmail ]=useState("")
     const [password,setPassword ]=useState("")
     const [errMsg,setErrMsg ]=useState("")
+    
+    const navigate=useNavigate();
 
 async function Login(e){
     e.preventDefault();
@@ -14,7 +17,7 @@ async function Login(e){
     if(!email || !password){
         setErrMsg("Please Enter value");
     }else{
-       
+       navigate("/dashboard");
     }
 
   }
