@@ -71,4 +71,38 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// LOGIN ADMIN
+router.post("/loginadmin", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if(!user){
+      res.status(401).json("Wrong password or username!");
+      return
+    }
+
+    const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
+    const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
+    if(originalPassword !== req.body.password){
+      res.status(401).json("Wrong password or username!");
+      return
+    }
+
+    if(!user.isAdmin){
+      res.status(401).json("You are not an admin!");
+      return
+    }
+    const accessToken = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.SECRET_KEY,
+      { expiresIn: "5d" }
+    );
+
+    const { password, ...info } = user._doc;
+
+    res.status(200).json({ ...info, accessToken });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

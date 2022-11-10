@@ -1,9 +1,12 @@
+import { AdminProvider } from "./AdminContext";
 import Routing from "./Routing";
 
 function App() {
   return (
     <>
-      <Routing />
+      <AdminProvider>
+        <Routing />
+      </AdminProvider>
     </>
   );
 }
