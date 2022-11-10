@@ -12,19 +12,19 @@ import { hostContext } from "../../roomContext/hostSocket";
 
 export const RoomHost = ({ roomId }) => {
   const { chatopen, setChatOpen, chatToggle } = useContext(chatContext);
-  const {playMedia, pauseMedia, timeStamp, PlayBackRate, changeVideo, endRoom} = useContext(hostContext);
+  const {playMedia, pauseMedia, timeStamp, PlayBackRate, changeVideo, endRoom, functions} = useContext(hostContext);
   const socket = useContext(SocketContext);
   const user = useContext(AuthContext);
   const { roomState, setRoomState, StreamMedia, setStreamMedia } =
   useContext(RoomContext);
   const VideoRef = useRef();
 
-  setInterval(() => {}, 1000);
   const modelRef = useRef();
   const closeModal = useRef();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState(null);
+
 
   const handleSelect = (e) => {
     e.preventDefault();
@@ -88,9 +88,11 @@ export const RoomHost = ({ roomId }) => {
     setTimeout(() => {
       VideoRef.current.src = selectedMedia.mediaUrl;
       VideoRef.current.play();
-    }, 3000);
+    }, 1220);
+    changeVideo();
     closeModal.current.click();
   };
+  
 
   return (
     <>
@@ -131,9 +133,10 @@ export const RoomHost = ({ roomId }) => {
               id="video"
               onPlay={playMedia}
               onPause={pauseMedia}
-              onTimeUpdate={timeStamp}
+              onSeeked ={timeStamp}
               onRateChange={PlayBackRate}
               onEnded={endRoom}
+              onTimeUpdate={(e) => {functions.setCurrentTime(e.target.currentTime)}}
             >
               <source src={StreamMedia.url} type="video/mp4" />
             </video>

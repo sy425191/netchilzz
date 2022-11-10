@@ -130,12 +130,13 @@ const Room = (io, socket) => {
         return;
       } else if (room.userArray.find((user) => user.userId === res.userId)) {
         await socket.join(res.roomId);
-        await socket.join(res.userId);
+        await socket.join(res.userId);     
         cb({
           room: {
             name: room.name,
             isHost: room.admin === res.userId,
             roomId: room._id,
+            admin: room.admin,
           },
           message: "Joined room successfully",
         });
@@ -198,6 +199,7 @@ const Room = (io, socket) => {
         }
         const media = await mediaModel.findById(res.mediaId);
         // set media to room
+        console.log(media);
         roomModel.findOneAndUpdate(
           { _id: res.roomId },
           {

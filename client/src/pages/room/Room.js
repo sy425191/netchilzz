@@ -27,6 +27,7 @@ const Room = () => {
           roomName: response.room.name,
           isHost: response.room.isHost,
           isJoined: true,
+          admin: response.room.admin,
         });
         setIsHost(response.room.isHost);
       }

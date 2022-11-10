@@ -28,10 +28,25 @@ const Stream = (io, socket) => {
         const roomId = data.roomId;
         socket.to(roomId).emit('changeVideo', data);
     });
+
+    socket.on('timeStamp', async (data) => {
+        const roomId = data.roomId;
+        socket.to(roomId).emit('timeStamp', data);
+    });
+
+    socket.on('playBackRate', async (data) => {
+        const roomId = data.roomId;
+        socket.to(roomId).emit('playBackRate', data);
+    });
     
     socket.on('endRoom', async (data) => {
         const roomId = data.roomId;
         socket.to(roomId).emit('endRoom', data);
+    });
+
+    socket.on('sync', async (data) => {
+        const roomId = data.roomId;
+        socket.to(roomId).emit('sync', data);
     });
     
 };

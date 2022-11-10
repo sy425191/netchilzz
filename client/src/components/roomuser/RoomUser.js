@@ -11,6 +11,22 @@ export const RoomUser = ({ roomId }) => {
   const VideoRef = useRef();
 
   useEffect(() => {
+    socket.on("sync", (data) => {
+      // console.log(data);
+      if (data.isPlaying === true) {
+        VideoRef.current.muted = true;
+        VideoRef.current.play();
+      } else {
+        VideoRef.current.pause();
+      }
+      VideoRef.current.currentTime = data.currentTimeinSec;
+      VideoRef.current.playbackRate = data.playbackRate;
+      // Remove the event listener
+      socket.off("sync");
+    });
+  }, []);
+
+  useEffect(() => {
     const videoelem = document.getElementById("video");
     socket.on("playMedia", (data) => {
       videoelem.muted = true;
@@ -20,9 +36,25 @@ export const RoomUser = ({ roomId }) => {
       videoelem.pause();
     });
     socket.on("timeStamp", (data) => {
+      const { currentTime } = data;
+      const isplaying = videoelem.paused;
+      videoelem.currentTime = currentTime;
+      if (isplaying) {
+        videoelem.pause();
+      } else {
+        videoelem.play();
+      }
     });
     socket.on("playBackRate", (data) => {
-      videoelem.playbackRate = data.playbackRate;
+      const { playbackRate } = data;
+      videoelem.playbackRate = playbackRate;
+    });
+
+    socket.on("changeVideo", (data) => {
+      // reload the page [temporary solution]
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     });
   }, []);
 
@@ -59,6 +91,7 @@ export const RoomUser = ({ roomId }) => {
             <source
               src={"http://127.0.0.1:8800/api/media/roomplaying/" + roomId}
               type="video/mp4"
+              id="source"
             />
           </video>
         </div>
