@@ -141,9 +141,14 @@ const Navbar = () => {
                 My Content
               </a>
             </li>
-            <li>
+            {/* <li>
               <a className="dropdown-item" href="#">
                 Stream History
+              </a>
+            </li> */}
+            <li>
+              <a className="dropdown-item" href="/favorites">
+                Favorites
               </a>
             </li>
             <li>

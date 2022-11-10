@@ -19,6 +19,7 @@ import Room from "./pages/room/Room";
 import SocketContext, { socket } from "./socketContext/SocketContext";
 import RoomContext from "./roomContext/roomContext";
 import { ChatProvider } from "./chatContext/ChatContext";
+import Favorites from "./pages/favorites/Favorites";
 
 export const searchContext = createContext();
 
@@ -64,6 +65,7 @@ function App() {
                   <>
                     <Route path="/upload" element={<Upload />} />
                     <Route path="/user/:username" element={<YourContent />} />
+                    <Route path="/favorites" element={<Favorites />} />
                     <Route path="/search" element={<Search />} />
                     <Route path="/watch/:mediaId" element={<Watch />} />
                     <Route path="/playlists" element={<Playlists />} />

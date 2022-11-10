@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { json, useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import Layout from "../../components/layout/Layout";
 import VideoPlayer from "../../components/player/VideoPlayer";
@@ -13,6 +13,7 @@ const Watch = () => {
   const { mediaId } = useParams();
   const [mediaType, setMediaType] = useState("");
   const [mediaUrl, setMediaUrl] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const [media, setMedia] = useState([
     {
       title: "",
@@ -27,6 +28,29 @@ const Watch = () => {
   const [likes, setLikes] = useState(0);
   const [disliked, setDisliked] = useState(false);
   const [dislikes, setDislikes] = useState(0);
+
+  const favoriteToggle = () => {
+    if(isFavorite === false){
+      setIsFavorite(true);
+      axios.post("/user/addtoFavorites", { mediaId: mediaId }, {
+        headers: {
+          token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        },
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    }
+    else{
+      setIsFavorite(false);
+      axios.post("/user/removefromFavorites", { mediaId: mediaId }, {
+        headers: {
+          token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+        },
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    }
+  };
 
   const likeHandler = () => {
     if (liked) {
@@ -64,7 +88,7 @@ const Watch = () => {
     link.setAttribute("download", media.title);
     document.body.appendChild(link);
     link.click();
-  }
+  };
 
   const [loading, setLoading] = useState(true);
 
@@ -92,6 +116,23 @@ const Watch = () => {
         setLikes(data.upvotes.length);
         setDisliked(data.downvotes.includes(user.user._id));
         setDislikes(data.downvotes.length);
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        const { data } = await axios.post(
+          "/user/isFavorite",
+          { mediaId },
+          {
+            headers: {
+              token:
+                "Bearer " +
+                JSON.parse(localStorage.getItem("user")).accessToken,
+            },
+          }
+        );
+        setIsFavorite(data);
       } catch (error) {
         console.log(error);
       }
@@ -135,6 +176,26 @@ const Watch = () => {
                   <span className="mx-2">{media.username}</span>
                   <span className="mx-2">{media.streams} streams</span>
                 </div>
+              </div>
+              <div
+                className="my-2 p-3"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.05)",
+                  borderRadius: "10px",
+                }}
+              >
+                {!isFavorite ? (
+                  <a
+                    className="btn btn-outline-danger"
+                    onClick={favoriteToggle}
+                  >
+                    <i className="fa fa-heart"></i> Add to Favorites
+                  </a>
+                ) : (
+                  <a className="btn btn-danger" onClick={favoriteToggle}>
+                    <i className="fa fa-heart"></i> Remove from Favorites
+                  </a>
+                )}
               </div>
             </div>
             <div className="col-12 col-md-4">

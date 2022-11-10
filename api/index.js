@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const authRoute = require("./routes/auth");
 const uploadRoute = require("./routes/upload");
 const mediaRoute = require("./routes/media");
+const userRoute = require("./routes/user");
 const playlistRoute = require("./routes/playlist");
 const {sendMessage, Message} = require("./socket/Message");
 const RoomSocket = require("./socket/Room");
@@ -37,6 +38,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/upload", uploadRoute);
 app.use("/api/media", mediaRoute)
 app.use("/api/playlists", playlistRoute);
+app.use("/api/user", userRoute);
 app.listen(process.env.PORT, () => {
   console.log("Backend server is running!");
 });
