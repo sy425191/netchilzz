@@ -17,26 +17,14 @@ router.post("/deleteuser", verify, (req, res) => {
     });
 });
 
-// ban user
+// ban user (if user is banned, then unban user)
 router.post("/banuser", verify, (req, res) => {
     User.findByIdAndUpdate(
         req.body.id,
-        { status: false },
+        { $set: { status: req.body.status } },
         (err, user) => {
             if (err) return res.status(500).json(err);
-            res.status(200).json("User has been banned...");
-        }
-    );
-});
-
-// unban user
-router.post("/unbanuser", verify, (req, res) => {
-    User.findByIdAndUpdate(
-        req.body.id,
-        { status: true },
-        (err, user) => {
-            if (err) return res.status(500).json(err);
-            res.status(200).json("User has been unbanned...");
+            res.status(200).json("Ok..");
         }
     );
 });
@@ -45,7 +33,20 @@ router.post("/unbanuser", verify, (req, res) => {
 router.post("/getmedia", verify, (req, res) => {
     Media.find({}, (err, media) => {
         if (err) return res.status(500).json(err);
-        res.status(200).json(media);
+        // populate user
+        User.populate(media, { path: "user" }, (err, media) => {
+            if (err) return res.status(500).json(err);
+            res.status(200).json(media);
+        });
+    });
+});
+
+
+// delete media
+router.post("/deletemedia", verify, (req, res) => {
+    Media.findByIdAndDelete(req.body.id, (err, media) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json("Media has been deleted...");
     });
 });
 

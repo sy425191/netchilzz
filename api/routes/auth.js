@@ -57,6 +57,11 @@ router.post("/login", async (req, res) => {
       return
     }
 
+    if(user.status === false){
+      res.status(401).json("Your account has been banned!");
+      return
+    }
+
     const accessToken = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       process.env.SECRET_KEY,
