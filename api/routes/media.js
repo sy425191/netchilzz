@@ -61,8 +61,12 @@ router.post("/search", verify, async (req, res) => {
 
   const uploads = await Media.find({
     $and: [
-      { user: { $ne: user_id } },
-      { public: true },
+      { $or : [
+        // if public 
+        { isPrivate: false },
+        // if private and user is owner
+        { $and: [{ isPrivate: true }, { user: user_id }] },
+      ] },
       {
         $or: [
           { title: { $regex: query, $options: "i" } },
