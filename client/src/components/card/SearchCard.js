@@ -3,7 +3,7 @@ const audefault = require("./audefault.png");
 const videfault = require("./videfault.png");
 const SearchCard = ({ key, item }) => {
   const handleCLick = () => {
-    window.open(item.mediaUrl, "_blank");
+    window.location.href = `/watch/${item._id}`;
   };
 
   const loadImg = () => {
@@ -17,7 +17,16 @@ const SearchCard = ({ key, item }) => {
       style={{ width: "100%" }}
     >
       <div
-        style={{ position: "relative", width: "auto", minWidth:"300px", height:"200px", cursor: "pointer", background:`url("${item.imgUrl}")`, backgroundRepeat:"no-repeat", backgroundSize:"cover" }}
+        style={{
+          position: "relative",
+          width: "auto",
+          minWidth: "300px",
+          height: "200px",
+          cursor: "pointer",
+          background: `url("${item.imgUrl}")`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
         onClick={handleCLick}
       >
         {/* background opaque 70% */}
