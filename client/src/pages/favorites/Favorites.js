@@ -41,6 +41,24 @@ const Favorites = () => {
           ))}
         </div>
       </div>
+
+      {
+        // if no search results
+         favorites.length === 0 && (
+          <div className="d-flex justify-content-center align-items-center" style={{height:"70vh"}}>
+            <h2
+              style={{
+                color: "white",
+                background: "rgba(0,0,0,0.5)",
+                padding: "10px",
+                borderRadius: "10px",
+              }}
+            >
+              No results found
+            </h2>
+          </div>
+        )
+      }
     </Layout>
   );
 };
