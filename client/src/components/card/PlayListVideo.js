@@ -18,8 +18,9 @@ const PlayListVideo = ({ playlistId, mediaId }) => {
     updatedAt: "",
     tags: [],
   });
+
   const handleCLick = () => {
-    window.location.href = "/watch/" + { mediaId };
+    window.location.href = `/watch/${item._id}`;
   };
 
   const deleteFromPlaylist = () => {
