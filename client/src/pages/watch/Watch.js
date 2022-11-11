@@ -246,7 +246,7 @@ const Watch = () => {
                   </button>
                 </div>
                 <div>
-                  <a className="btn btn-primary" href={"/newroom"}>
+                  <a className="btn btn-primary" href={"/room"}>
                     <i className="fa fa-share me-2"></i> Stream
                   </a>
                   <a className="btn btn-success mx-1" onClick={downloadMedia}>
