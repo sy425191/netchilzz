@@ -199,12 +199,28 @@ const Room = (io, socket) => {
         }
         const media = await mediaModel.findById(res.mediaId);
         // set media to room
-        console.log(media);
+        // console.log(media);
+
         roomModel.findOneAndUpdate(
           { _id: res.roomId },
           {
             $set: {
               media: media.mediaUrl,
+            },
+          },
+          { new: true },
+          (err, doc) => {
+            if (err) {
+              console.log("Something wrong when updating data!");
+            }
+          }
+        );
+        // incrementing the number of streams
+        mediaModel.findOneAndUpdate(
+          { _id: res.mediaId },
+          {
+            $inc: {
+              streams: 1,
             },
           },
           { new: true },

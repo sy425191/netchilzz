@@ -4,7 +4,7 @@ import Chat from "../chat/Chat";
 import SocketContext from "../../socketContext/SocketContext";
 import RoomContext from "../../roomContext/roomContext";
 import { chatContext } from "../../chatContext/ChatContext";
-import { searchMedia } from "./roomHostApiCalls";
+import { searchMedia, getRoomDetails } from "./roomHostApiCalls";
 import StreamSearchCard from "../card/streamSearchCard/streamSearchCard";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../authContext/AuthContext";
@@ -12,11 +12,19 @@ import { hostContext } from "../../roomContext/hostSocket";
 
 export const RoomHost = ({ roomId }) => {
   const { chatopen, setChatOpen, chatToggle } = useContext(chatContext);
-  const {playMedia, pauseMedia, timeStamp, PlayBackRate, changeVideo, endRoom, functions} = useContext(hostContext);
+  const {
+    playMedia,
+    pauseMedia,
+    timeStamp,
+    PlayBackRate,
+    changeVideo,
+    endRoom,
+    functions,
+  } = useContext(hostContext);
   const socket = useContext(SocketContext);
   const user = useContext(AuthContext);
   const { roomState, setRoomState, StreamMedia, setStreamMedia } =
-  useContext(RoomContext);
+    useContext(RoomContext);
   const VideoRef = useRef();
 
   const modelRef = useRef();
@@ -24,7 +32,14 @@ export const RoomHost = ({ roomId }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState(null);
+  const [RoomDetails, setRoomDetails] = useState({
+    key: "",
+    userArray: [],
+  });
 
+  useEffect(() => {
+    setRoomDetails(getRoomDetails(roomId));
+  }, [selectedMedia]);
 
   const handleSelect = (e) => {
     e.preventDefault();
@@ -88,11 +103,11 @@ export const RoomHost = ({ roomId }) => {
     setTimeout(() => {
       VideoRef.current.src = selectedMedia.mediaUrl;
       VideoRef.current.play();
+      window.location.reload();
     }, 1220);
     changeVideo();
     closeModal.current.click();
   };
-  
 
   return (
     <>
@@ -107,7 +122,11 @@ export const RoomHost = ({ roomId }) => {
             >
               Stream Content
             </button>
-            <button className="btn btn-outline-danger mx-2">
+            <button
+              className="btn btn-outline-danger mx-2"
+              data-bs-toggle="modal"
+              data-bs-target="#settingModal"
+            >
               Settings <i className="fa fa-cog"></i>
             </button>
             <button
@@ -133,10 +152,12 @@ export const RoomHost = ({ roomId }) => {
               id="video"
               onPlay={playMedia}
               onPause={pauseMedia}
-              onSeeked ={timeStamp}
+              onSeeked={timeStamp}
               onRateChange={PlayBackRate}
               onEnded={endRoom}
-              onTimeUpdate={(e) => {functions.setCurrentTime(e.target.currentTime)}}
+              onTimeUpdate={(e) => {
+                functions.setCurrentTime(e.target.currentTime);
+              }}
             >
               <source src={StreamMedia.url} type="video/mp4" />
             </video>
@@ -209,6 +230,57 @@ export const RoomHost = ({ roomId }) => {
                 onClick={selectMediaHandler}
               >
                 Play <i className="fa fa-play"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade"
+        id="settingModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
+                Settings
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className="container">
+                <div className="row">
+                  <div className="col-12 p-3 border mb-3">
+                    Key: <span className="text-muted">{RoomDetails.key}</span>
+                  </div>
+
+                  <div className="col-12">
+                    {/* users connected */}
+                    <h5 className="fs-6">Users Connected</h5>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Save changes
               </button>
             </div>
           </div>
