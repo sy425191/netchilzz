@@ -23,6 +23,12 @@ export default function Login() {
     login({ email, password }, dispatch);
   };
   return (
+    <>
+    <div className=" p-4 text-center bg-primary text-white">
+        <h1>Netchilzz</h1>
+        <p>A streaming platform</p>
+      </div>
+
     <div className="text-center pt-4">
       <main className="form-signin w-100 m-auto">
         <form>
@@ -69,5 +75,6 @@ export default function Login() {
         </form>
       </main>
     </div>
+    </>
   );
 }
