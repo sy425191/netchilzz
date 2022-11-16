@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user")); // Get user from local storage
   const navigate = useNavigate();
-
+  
   const search = useContext(searchContext); // Get search query from search context
 
   const handleLogout = () => {
@@ -26,6 +26,13 @@ const Navbar = () => {
     if (e.key === "/") {
       e.preventDefault();
       document.getElementById("navbar-search").focus();
+    }
+    if(e.key === "Enter"){
+      handleSearch(e);
+    }
+
+    if(e.key === "Escape"){
+      document.getElementById("navbar-search").blur();
     }
   };
 
@@ -89,8 +96,10 @@ const Navbar = () => {
 
   return (
     <div className="d-flex justify-content-between my-1 d-none d-md-flex">
-      <div>
-        <a href="/">Home</a>
+      <div className="back_button">
+        <a href="/">
+          <span className="back_arrow" style={window.location.pathname=="/" ? {display:"none"} : {}}></span> <span> Home </span>
+        </a>
       </div>
       <div className="d-flex justify-content-center">
         <input

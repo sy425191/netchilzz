@@ -1,3 +1,26 @@
 #navbar-search{
     max-width: 400px;
 }
+.back_button a{
+    display: flex;
+    color: #DC3545;
+    margin: 0 10px;
+    padding: 7px 20px;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.back_button a:hover{
+    background:#DC3545;
+    color: white;
+}
+
+.back_arrow{
+    content: "<";
+    margin-right: 5px;
+}
+
+.back_arrow::before{
+    content: "<";
+    margin-right: 5px;
+}
