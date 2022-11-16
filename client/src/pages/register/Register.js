@@ -12,39 +12,46 @@ export default function Register() {
 
   const handleStart = async (e) => {
     e.preventDefault();
+    const regexp = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+    if (!regexp.test(email)) {
+      Swal.fire({
+        text: "Invalid email please try again",
+        icon: "error",
+      });
+      return;
+    }
     try {
-      await axios.post("auth/checkemail", { email, username })
-      .then((res) => {
-        if(res.data.status){
-            setForm(true);
+      await axios.post("auth/checkemail", { email, username }).then((res) => {
+        if (res.data.status) {
+          setForm(true);
+        } else {
+          Swal.fire("Error", res.data.message, "error");
         }
-        else{
-            Swal.fire("Error", res.data.message, "error");
-        }
-      })
+      });
     } catch (err) {
       Swal.fire("Error", err.response.data, "error");
     }
   };
   const handleFinish = async (e) => {
     e.preventDefault();
+    if (password.length < 6) {
+      Swal.fire({
+        text: "Password must be at least 6 characters",
+        icon: "error",
+      });
+      return;
+    }
     try {
       await axios.post("auth/register", { email, username, password });
-      Swal.fire(
-        "success",
-        "Successfully Registred, Please Log in!",
-        "success"
-      )
+      Swal.fire("success", "Successfully Registred, Please Log in!", "success");
       window.location.replace("/login");
-    } catch (err) {
-
-    }
+    } catch (err) {}
   };
 
   return (
     <div className="text-center pt-4">
       <main className="form-signin w-100 m-auto">
-        <form>
+        <form onSubmit={handleFinish}>
           <img
             className="mb-4"
             src="https://img.icons8.com/color/344/user-account-skin-type-7.png"
@@ -118,11 +125,7 @@ export default function Register() {
                 <label htmlFor="floatingPassword">Password</label>
               </div>
 
-              <button
-                className="w-100 btn btn-lg btn-primary"
-                type="submit"
-                onClick={handleFinish}
-              >
+              <button className="w-100 btn btn-lg btn-primary" type="submit">
                 Sign Up
               </button>
             </>

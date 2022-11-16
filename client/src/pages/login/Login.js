@@ -31,7 +31,7 @@ export default function Login() {
 
     <div className="text-center pt-4">
       <main className="form-signin w-100 m-auto">
-        <form>
+        <form onSubmit={handleLogin}>
           <img
             className="mb-4"
             src="https://img.icons8.com/color/344/user-account-skin-type-7.png"
@@ -65,7 +65,6 @@ export default function Login() {
           <button
             className="w-100 btn btn-lg btn-primary"
             type="submit"
-            onClick={handleLogin}
           >
             Sign in
           </button>

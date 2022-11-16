@@ -227,6 +227,7 @@ const Upload = () => {
                   name="type"
                   id="public"
                   checked
+                  onChange={(e) => setIsPrivate(false)}
                 />
                 <label htmlFor="public">Public</label>
                 <br />
@@ -235,6 +236,7 @@ const Upload = () => {
                   type={"radio"}
                   name="type"
                   id="private"
+                  onChange={() => setIsPrivate(true)}
                 />
                 <label htmlFor="private">Private</label>
               </div>
