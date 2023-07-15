@@ -3,6 +3,7 @@ import { searchContext } from "../../App";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user")); // Get user from local storage
   const navigate = useNavigate();
@@ -59,10 +60,10 @@ const Navbar = () => {
     };
 
     recognition.onresult = (e) => {
-      Swal.close();
+      Swal.close(); 
       const transcript = e.results[0][0].transcript;
       search.setSearchQuery(transcript);
-      navigate(`/search?query=${encodeURIComponent(transcript)}`);
+      navigate( `/search?query=${encodeURIComponent(transcript)}`);
     };
 
     recognition.onerror = (e) => {

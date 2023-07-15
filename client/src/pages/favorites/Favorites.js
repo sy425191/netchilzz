@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../authContext/AuthContext";
 import Card from "../../components/card/Card";
 import Layout from "../../components/layout/Layout";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const Favorites = () => {
   const { user } = useContext(AuthContext);
@@ -13,7 +14,7 @@ const Favorites = () => {
     const getFavorites = async () => {
       try {
         const { data } = await axios.post(
-          "/user/favorites/",
+          API_ENDPOINT+"/user/favorites/",
           {},
           {
             headers: {

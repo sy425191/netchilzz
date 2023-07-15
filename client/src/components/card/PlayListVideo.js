@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { date_to_days, TrimVar } from "../functions";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 const audefault = require("./audefault.png");
 const videfault = require("./videfault.png");
 
@@ -26,7 +27,7 @@ const PlayListVideo = ({ playlistId, mediaId }) => {
   const deleteFromPlaylist = () => {
     axios
       .post(
-        "/playlists/removefrom",
+        API_ENDPOINT+"/playlists/removefrom",
         { mediaId: mediaId, playlistId: playlistId },
         {
           headers: {
@@ -58,7 +59,7 @@ const PlayListVideo = ({ playlistId, mediaId }) => {
   useEffect(() => {
     axios
       .post(
-        "/media/get",
+        API_ENDPOINT+"/media/get",
         { mediaId: mediaId },
         {
           headers: {

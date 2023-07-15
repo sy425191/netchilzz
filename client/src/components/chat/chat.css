@@ -64,17 +64,17 @@
     line-height: 12px;
     text-transform: uppercase;
 
-    color: #ADADAD;
+    color: #070707;
 }
 
 .cgl-live-chat .chat-wrapper .chat-view .sender-name a:hover {
-    color: #FFFFFF;
+    color: #000000;
     font-weight: bold;
 }
 
 .cgl-live-chat .chat-wrapper .chat-view .admin-tag a {
     background-color: #4368EA !important;
-    color: #FFFFFF !important;
+    color: #000000 !important;
     border-radius: 9px;
     padding: 0 8px;
 }

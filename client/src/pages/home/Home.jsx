@@ -3,6 +3,7 @@ import axios from "axios";
 import Layout from "../../components/layout/Layout";
 import Card from "../../components/card/Card";
 import ScrollView from "../../components/scrollview/ScrollView";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const Home = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -10,7 +11,7 @@ const Home = () => {
   const [content, setContent] = useState([]);
   useEffect(() => {
     axios
-      .get("/media/recommended", {
+      .get(API_ENDPOINT + "/media/recommended", {
         headers: {
           token: `Bearer ${user.accessToken}`,
         },

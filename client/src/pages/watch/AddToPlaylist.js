@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useReducer, useRef, useState } from "react";
 import Swal from "sweetalert2";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const AddToPlaylist = ({ mediaId }) => {
   const [playlists, setPlaylists] = useState([]);
@@ -8,7 +9,7 @@ const AddToPlaylist = ({ mediaId }) => {
   useEffect(() => {
     axios
       .post(
-        "/playlists/list",
+        API_ENDPOINT+"/playlists/list",
         {
           mediaId: mediaId,
         },
@@ -28,7 +29,7 @@ const AddToPlaylist = ({ mediaId }) => {
     const playlistId = selectRef.current.value;
     axios
       .post(
-        "/playlists/addto",
+        API_ENDPOINT+"/playlists/addto",
         {
           playlistId: playlistId,
           mediaId: mediaId,

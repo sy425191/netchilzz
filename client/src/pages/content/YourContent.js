@@ -2,13 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Card from "../../components/card/Card";
 import Layout from "../../components/layout/Layout";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
+
 const YourContent = () => {
 
     const [media, setMedia] = useState([])
 
     useEffect(() => {
         try{
-            axios.get("/media/userAll", {
+            axios.get(API_ENDPOINT+"/media/userAll", {
                 headers: {
                     token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken
                 }

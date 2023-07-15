@@ -1,10 +1,11 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 export const like = async (userId, mediaId) => {
   try {
     await axios.put(
-      `/media/${mediaId}/like`,
+      API_ENDPOINT+`/media/${mediaId}/like`,
       {
         userId,
       },
@@ -23,7 +24,7 @@ export const like = async (userId, mediaId) => {
 export const dislike = async (userId, mediaId) => {
   try {
     await axios.put(
-      `/media/${mediaId}/dislike`,
+      API_ENDPOINT+`/media/${mediaId}/dislike`,
       {
         userId,
       },

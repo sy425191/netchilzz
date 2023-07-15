@@ -3,6 +3,7 @@ import { chatContext } from "../../chatContext/ChatContext";
 import RoomContext from "../../roomContext/roomContext";
 import SocketContext from "../../socketContext/SocketContext";
 import Chat from "../chat/Chat";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 export const RoomUser = ({ roomId }) => {
   const { roomState, setRoomState } = useContext(RoomContext);
@@ -89,7 +90,7 @@ export const RoomUser = ({ roomId }) => {
             ref={VideoRef}
           >
             <source
-              src={"http://127.0.0.1:8800/api/media/roomplaying/" + roomId}
+              src={API_ENDPOINT+"/media/roomplaying/" + roomId}
               type="video/mp4"
               id="source"
             />

@@ -1,9 +1,10 @@
 import axios from "axios";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 export const searchMedia = async (searchTerm) => {
     try {
         const res = await axios.post(
-          "/media/search",
+          API_ENDPOINT+ "/media/search",
           {
             query: searchTerm,
             sort: "",
@@ -25,14 +26,14 @@ export const searchMedia = async (searchTerm) => {
 
 export const getRoomDetails = async (roomId) => {
     try {
-        const res = await axios.get(`/room/${roomId}`, {
+        const res = await axios.get(API_ENDPOINT+`/room/${roomId}`, {
           headers: {
             token:
               "Bearer " +
               JSON.parse(localStorage.getItem("user")).accessToken,
           },
         });
-        return res;
+        return res['data'];
       } catch (err) {
         console.log(err);
       }

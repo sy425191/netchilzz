@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { async } from "@firebase/util";
 import PlayListCard from "../../components/card/PlayListcard";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const Playlists = () => {
   const [playlists, setPlaylists] = useState([]);
@@ -23,7 +24,7 @@ const Playlists = () => {
         // create playlist
         try {
           const newplaylist = await axios.post(
-            "/playlists/add",
+            API_ENDPOINT + "/playlists/add",
             { playlistName },
             {
               headers: {
@@ -50,7 +51,7 @@ const Playlists = () => {
   useEffect(() => {
     const getPlaylists = async () => {
       try {
-        const res = await axios.get("/playlists/all", {
+        const res = await axios.get(API_ENDPOINT+"/playlists/all", {
           headers: {
             token:
               "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,

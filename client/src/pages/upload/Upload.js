@@ -10,6 +10,7 @@ import {
   list,
 } from "firebase/storage";
 import { storage } from "../../firebase";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const Upload = () => {
   const [type, setType] = useState(null);
@@ -79,7 +80,7 @@ const Upload = () => {
 
     axios
       .post(
-        "/upload/add_content",
+        API_ENDPOINT+"/upload/add_content",
         {
           title,
           description,
