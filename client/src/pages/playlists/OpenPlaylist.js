@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import PlayListVideo from "../../components/card/PlayListVideo";
 import SearchCard from "../../components/card/SearchCard";
 import Layout from "../../components/layout/Layout";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const OpenPlayList = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const OpenPlayList = () => {
   useEffect(() => {
     axios
       .post(
-        "/user/getuserpublic",
+        API_ENDPOINT+"/user/getuserpublic",
         { userId: playlist.user },
         {
           headers: {
@@ -39,7 +40,7 @@ const OpenPlayList = () => {
   const deletePlaylist = () => {
     axios
       .post(
-        "/playlists/delete/",
+        API_ENDPOINT+"/playlists/delete/",
         { playlistId: id },
         {
           headers: {
@@ -72,7 +73,7 @@ const OpenPlayList = () => {
     const fetchPlaylist = async () => {
       const res = axios
         .post(
-          "/playlists/get",
+          API_ENDPOINT+"/playlists/get",
           {
             playlistId: id,
           },

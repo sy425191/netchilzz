@@ -33,13 +33,24 @@ export const RoomHost = ({ roomId }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [RoomDetails, setRoomDetails] = useState({
-    key: "",
+    key: "loading...",
     userArray: [],
   });
 
-  useEffect(() => {
-    setRoomDetails(getRoomDetails(roomId));
+  useEffect(() =>{
+    var data = getRoomDetails(roomId)
+    .then((val)=> {
+      console.log(val);
+      setRoomDetails({
+        key: val.key,
+        userArray: val.userArray,
+      });
+    })
   }, [selectedMedia]);
+
+  useEffect(() => {
+    console.log(RoomDetails)
+  }, [RoomDetails])
 
   const handleSelect = (e) => {
     e.preventDefault();
@@ -263,9 +274,13 @@ export const RoomHost = ({ roomId }) => {
                     Key: <span className="text-muted">{RoomDetails.key}</span>
                   </div>
 
+                  <div className="col-12 p-3 border mb-3">
+                    Room ID: <span className="text-muted">{roomId}</span>
+                  </div>
+
                   <div className="col-12">
                     {/* users connected */}
-                    <h5 className="fs-6">Users Connected</h5>
+                    <h5 className="fs-6">Users Connected: <b>{RoomDetails.userArray.length}</b></h5>
 
                   </div>
                 </div>

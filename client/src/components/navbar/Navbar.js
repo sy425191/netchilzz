@@ -3,6 +3,7 @@ import { searchContext } from "../../App";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user")); // Get user from local storage
   const navigate = useNavigate();
@@ -59,10 +60,10 @@ const Navbar = () => {
     };
 
     recognition.onresult = (e) => {
-      Swal.close();
+      Swal.close(); 
       const transcript = e.results[0][0].transcript;
       search.setSearchQuery(transcript);
-      navigate(`/search?query=${encodeURIComponent(transcript)}`);
+      navigate( `/search?query=${encodeURIComponent(transcript)}`);
     };
 
     recognition.onerror = (e) => {
@@ -95,10 +96,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="d-flex justify-content-between my-1 d-none d-md-flex">
+    <div className="d-flex justify-content-between my-1 d-none d-md-flex" style={{minHeight: "40px"}}>
       <div className="back_button">
         <a href="/">
-          <span className="back_arrow" style={window.location.pathname=="/" ? {display:"none"} : {}}></span> <span> Home </span>
+          <span className="back_arrow" style={window.location.pathname=="/" ? {display:"none"} : {}}></span> <span> <i className="fa fa-home"></i> </span>
         </a>
       </div>
       <div className="d-flex justify-content-center">
@@ -113,7 +114,7 @@ const Navbar = () => {
           onChange={(e) => search.setSearchQuery(e.target.value)}
         />
         <button
-          className="btn btn-outline-success my-2 my-sm-0"
+          className="btn btn-outline-success my-2 my-sm-0 searchBtn"
           onClick={handleSearch}
         >
           <i className="fa fa-search"></i>

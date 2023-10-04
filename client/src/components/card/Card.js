@@ -16,7 +16,7 @@ const Card = ({ key, item }) => {
   };
 
   return (
-    <div className="card px-0" id={"card_" + key} style={{ width: "300px" }}>
+    <div className="card px-0 mt-3" id={"card_" + key} style={{ width: "300px" }}>
       <div
         style={{ position: "relative", cursor: "pointer" }}
         onClick={handleCLick}

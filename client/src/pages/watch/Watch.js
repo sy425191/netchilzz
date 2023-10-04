@@ -8,6 +8,7 @@ import { TrimVar } from "../../components/functions";
 import { AuthContext } from "../../authContext/AuthContext";
 import { like, dislike } from "./watchApiCalls";
 import AddToPlaylist from "./AddToPlaylist";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const Watch = () => {
   const user = useContext(AuthContext);
@@ -35,7 +36,7 @@ const Watch = () => {
       setIsFavorite(true);
       axios
         .post(
-          "/user/addtoFavorites",
+          API_ENDPOINT+"/user/addtoFavorites",
           { mediaId: mediaId },
           {
             headers: {
@@ -51,7 +52,7 @@ const Watch = () => {
       setIsFavorite(false);
       axios
         .post(
-          "/user/removefromFavorites",
+          API_ENDPOINT+"/user/removefromFavorites",
           { mediaId: mediaId },
           {
             headers: {
@@ -98,7 +99,7 @@ const Watch = () => {
 
   const downloadMedia = () => {
     const link = document.createElement("a");
-    link.href = "http://localhost:8800/api/media/forcedownload/" + mediaId;
+    link.href = API_ENDPOINT+"/media/forcedownload/" + mediaId;
     link.setAttribute("download", media.title);
     document.body.appendChild(link);
     link.click();
@@ -110,7 +111,7 @@ const Watch = () => {
     const getMedia = async () => {
       try {
         const { data } = await axios.post(
-          `/media/get`,
+          API_ENDPOINT+`/media/get`,
           {
             mediaId,
           },
@@ -136,7 +137,7 @@ const Watch = () => {
 
       try {
         const { data } = await axios.post(
-          "/user/isFavorite",
+          API_ENDPOINT+"/user/isFavorite",
           { mediaId },
           {
             headers: {
@@ -260,6 +261,8 @@ const Watch = () => {
                   backgroundColor: "grey",
                   color: "white",
                   borderRadius: "10px",
+                  maxHeight: "300px",
+                  overflowY: "scroll",
                 }}
               >
                 <h5>Description:</h5>

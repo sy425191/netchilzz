@@ -13,9 +13,13 @@ const {sendMessage, Message} = require("./socket/Message");
 const RoomSocket = require("./socket/Room");
 const Stream = require("./socket/Stream");
 const { ApiError } = require("@google-cloud/storage/build/src/nodejs-common");
+const cors = require('cors');
+app.use(cors({
+  origin: '*'
+}));
 const io = require("socket.io")(8000,{
   cors :{
-      origin: ["http://localhost:3000", "https://admin.socket.io", "http://localhost:3001"],
+      origin: ["http://localhost:3000", "https://admin.socket.io", "http://localhost:3001", "*"],
       methods: ['GET', 'POST'],
   }
 })

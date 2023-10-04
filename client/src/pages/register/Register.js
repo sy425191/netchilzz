@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useState } from "react";
 import "./register.css";
 import Swal from "sweetalert2";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export default function Register() {
       return;
     }
     try {
-      await axios.post("auth/checkemail", { email, username }).then((res) => {
+      await axios.post(API_ENDPOINT+"/auth/checkemail", { email, username }).then((res) => {
         if (res.data.status) {
           setForm(true);
         } else {
@@ -42,7 +43,7 @@ export default function Register() {
       return;
     }
     try {
-      await axios.post("auth/register", { email, username, password });
+      await axios.post(API_ENDPOINT+"/auth/register", { email, username, password });
       Swal.fire("success", "Successfully Registred, Please Log in!", "success");
       window.location.replace("/login");
     } catch (err) {}

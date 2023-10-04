@@ -5,6 +5,7 @@ import Layout from "../../components/layout/Layout";
 import Card from "../../components/card/Card";
 import { searchContext } from "../../App";
 import SearchCard from "../../components/card/SearchCard";
+import API_ENDPOINT from "../../apiContext/apiEndpoint";
 
 const Search = () => {
   const search = useContext(searchContext);
@@ -16,7 +17,7 @@ const Search = () => {
     const getSearchResults = async () => {
       try {
         const res = await axios.post(
-          "/media/search",
+          API_ENDPOINT+"/media/search",
           {
             query: search.searchQuery,
             sort: searchSort,

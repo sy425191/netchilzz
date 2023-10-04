@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema( // Schema is a constructor inside mongoose class
+// and we pass an jS object as parameter
   {
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
@@ -13,4 +14,4 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema); 
