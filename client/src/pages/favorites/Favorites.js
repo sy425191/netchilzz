@@ -36,7 +36,7 @@ const Favorites = () => {
   return (
     <Layout>
       <div className="favorites">
-        <div className="row">
+        <div className="d-flex justify-content-evenly align-items-center flex-wrap mt-3">
           {favorites.map((favorite) => (
             <Card key={favorite._id} item={favorite} />
           ))}

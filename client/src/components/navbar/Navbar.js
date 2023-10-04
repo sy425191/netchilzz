@@ -96,10 +96,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="d-flex justify-content-between my-1 d-none d-md-flex">
+    <div className="d-flex justify-content-between my-1 d-none d-md-flex" style={{minHeight: "40px"}}>
       <div className="back_button">
         <a href="/">
-          <span className="back_arrow" style={window.location.pathname=="/" ? {display:"none"} : {}}></span> <span> Home </span>
+          <span className="back_arrow" style={window.location.pathname=="/" ? {display:"none"} : {}}></span> <span> <i className="fa fa-home"></i> </span>
         </a>
       </div>
       <div className="d-flex justify-content-center">
@@ -114,7 +114,7 @@ const Navbar = () => {
           onChange={(e) => search.setSearchQuery(e.target.value)}
         />
         <button
-          className="btn btn-outline-success my-2 my-sm-0"
+          className="btn btn-outline-success my-2 my-sm-0 searchBtn"
           onClick={handleSearch}
         >
           <i className="fa fa-search"></i>

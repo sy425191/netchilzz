@@ -66,9 +66,7 @@ const Chat = () => {
           {Chats.map((chat) => {
             return (
               <div
-                className={
-                  "chat-item" + chat.pinned === true ? "chat-pinned" : ""
-                }
+                className={chat.username === user.user.username ? "chat-item chat-pinned" : "chat-item"}
               >
                 <div className="d-flex">
                   <img

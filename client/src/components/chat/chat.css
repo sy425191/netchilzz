@@ -48,6 +48,10 @@
 
 .cgl-live-chat .chat-wrapper .chat-item {
     padding: 5px;
+    border-radius: 10px;
+    margin: 10px 0;
+    border: 1px solid gray;
+    font-weight: 500;
 }
 
 .cgl-live-chat .chat-wrapper .chat-view img {
@@ -57,13 +61,12 @@
 }
 
 .cgl-live-chat .chat-wrapper .chat-view .sender-name a {
-    font-family: Hind Madurai;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
     line-height: 12px;
     text-transform: uppercase;
-
     color: #070707;
 }
 
@@ -73,8 +76,8 @@
 }
 
 .cgl-live-chat .chat-wrapper .chat-view .admin-tag a {
-    background-color: #4368EA !important;
-    color: #000000 !important;
+    background-color: #4368EA;
+    color: #000000;
     border-radius: 9px;
     padding: 0 8px;
 }
@@ -98,9 +101,10 @@
     border: 2px solid #7389DC;
     box-sizing: border-box;
     position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    background-color: #11151A;
+    /* position: sticky; */
+    /* top: 0; */
+    background-color: #7094c0;
+    color: white!important;
 }
 
 .chat-sticky {
@@ -120,7 +124,8 @@
     font-size: 14px;
     line-height: 17px;
     padding: 3px;
-    color: #9FADC5;
+    color: #000000;
+    font-weight: 400;
 }
 
 .cgl-live-chat .chat-wrapper .chat-message {

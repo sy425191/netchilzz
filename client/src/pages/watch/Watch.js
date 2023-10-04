@@ -261,6 +261,8 @@ const Watch = () => {
                   backgroundColor: "grey",
                   color: "white",
                   borderRadius: "10px",
+                  maxHeight: "300px",
+                  overflowY: "scroll",
                 }}
               >
                 <h5>Description:</h5>

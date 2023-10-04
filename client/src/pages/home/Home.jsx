@@ -27,12 +27,12 @@ const Home = () => {
   return (
     <Layout>
       <div className="container">
-        <div className="row">
-          <ScrollView name={"Recently Added"}>
+        <div className="d-flex justify-content-evenly align-items-center flex-wrap mt-3">
+          
           {content.map((item) => (
             <Card key={item.id} item={item} />
           ))}
-          </ScrollView>
+
         </div>
       </div>
     </Layout>

@@ -26,7 +26,7 @@ const YourContent = () => {
   return (
     <Layout>
       {/* showing user content in form of cards */}
-      <div className="row">
+      <div className="d-flex justify-content-evenly align-items-center flex-wrap mt-3">
         {
             media.map((item) => {
                 item.username = JSON.parse(localStorage.getItem("user")).username
