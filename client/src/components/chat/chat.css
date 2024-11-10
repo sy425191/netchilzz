@@ -1,0 +1,20 @@
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+
+  background-color: #27282f;
+  border-radius: 30px;
+}
+/*-----------------------LIVE CHAT-------------------------*/
+
+.dropdown-btn {
+  background-color: transparent;
+  color: #585c61;
+  border: none;
+  outline: none !important;
+}
