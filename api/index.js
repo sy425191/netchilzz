@@ -18,7 +18,7 @@ app.use(cors({
 }));
 const io = require("socket.io")(8000,{
   cors :{
-      origin: ["http://localhost:3000", "https://admin.socket.io", "http://localhost:3001", "https://netchillz-frontend-a4gi.vercel.app/", "*"],
+      origin: ["http://localhost:3000", "https://admin.socket.io", "http://localhost:3001", "https://netchillz-frontend-a4gi.vercel.app"],
       methods: ['GET', 'POST'],
   }
 })
